@@ -1,4 +1,4 @@
-module github.com/csai/htb-clone-lab-agent
+module github.com/htb-clone-lab-agent
 
 go 1.22
 

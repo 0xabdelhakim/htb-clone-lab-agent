@@ -19,9 +19,9 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/client"
 
-	"github.com/csai/htb-clone-lab-agent/internal/config"
-	"github.com/csai/htb-clone-lab-agent/internal/state"
-	"github.com/csai/htb-clone-lab-agent/internal/wireguard"
+	"github.com/htb-clone-lab-agent/internal/config"
+	"github.com/htb-clone-lab-agent/internal/state"
+	"github.com/htb-clone-lab-agent/internal/wireguard"
 )
 
 var (

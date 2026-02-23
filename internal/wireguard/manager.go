@@ -10,8 +10,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/csai/htb-clone-lab-agent/internal/config"
-	"github.com/csai/htb-clone-lab-agent/internal/state"
+	"github.com/htb-clone-lab-agent/internal/config"
+	"github.com/htb-clone-lab-agent/internal/state"
 )
 
 type Manager interface {

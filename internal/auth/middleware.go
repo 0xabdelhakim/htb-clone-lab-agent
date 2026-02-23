@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/csai/htb-clone-lab-agent/internal/config"
+	"github.com/htb-clone-lab-agent/internal/config"
 )
 
 const (

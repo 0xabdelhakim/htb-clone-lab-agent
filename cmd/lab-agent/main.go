@@ -14,14 +14,14 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/csai/htb-clone-lab-agent/internal/api"
-	"github.com/csai/htb-clone-lab-agent/internal/auth"
-	"github.com/csai/htb-clone-lab-agent/internal/config"
-	"github.com/csai/htb-clone-lab-agent/internal/metrics"
-	"github.com/csai/htb-clone-lab-agent/internal/observability"
-	"github.com/csai/htb-clone-lab-agent/internal/orchestrator"
-	"github.com/csai/htb-clone-lab-agent/internal/state"
-	"github.com/csai/htb-clone-lab-agent/internal/wireguard"
+	"github.com/htb-clone-lab-agent/internal/api"
+	"github.com/htb-clone-lab-agent/internal/auth"
+	"github.com/htb-clone-lab-agent/internal/config"
+	"github.com/htb-clone-lab-agent/internal/metrics"
+	"github.com/htb-clone-lab-agent/internal/observability"
+	"github.com/htb-clone-lab-agent/internal/orchestrator"
+	"github.com/htb-clone-lab-agent/internal/state"
+	"github.com/htb-clone-lab-agent/internal/wireguard"
 )
 
 func main() {

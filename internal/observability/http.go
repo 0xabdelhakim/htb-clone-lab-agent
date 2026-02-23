@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/csai/htb-clone-lab-agent/internal/metrics"
+	"github.com/htb-clone-lab-agent/internal/metrics"
 )
 
 type ctxKey string

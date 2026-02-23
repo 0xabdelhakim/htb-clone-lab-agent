@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/csai/htb-clone-lab-agent/internal/config"
-	"github.com/csai/htb-clone-lab-agent/internal/metrics"
-	"github.com/csai/htb-clone-lab-agent/internal/orchestrator"
-	"github.com/csai/htb-clone-lab-agent/internal/state"
+	"github.com/htb-clone-lab-agent/internal/config"
+	"github.com/htb-clone-lab-agent/internal/metrics"
+	"github.com/htb-clone-lab-agent/internal/orchestrator"
+	"github.com/htb-clone-lab-agent/internal/state"
 )
 
 type Orchestrator interface {

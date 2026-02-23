@@ -54,7 +54,7 @@ python3 scripts/sign_request.py \
   --secret "$LAB_AGENT_HMAC_SECRET" \
   --method POST \
   --path /v1/instances \
-  --body '{"instance_id":"...","user_id":"...","lab_id":"...","image":"ghcr.io/csai/labs/demo:latest","ttl_seconds":7200}'
+  --body '{"instance_id":"...","user_id":"...","lab_id":"...","image":"ghcr.io/labs/demo:latest","ttl_seconds":7200}'
 ```
 
 Bearer mode remains optional via `LAB_AGENT_AUTH_MODE=bearer`.

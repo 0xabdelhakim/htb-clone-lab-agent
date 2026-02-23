@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/csai/htb-clone-lab-agent/internal/config"
-	"github.com/csai/htb-clone-lab-agent/internal/metrics"
+	"github.com/htb-clone-lab-agent/internal/config"
+	"github.com/htb-clone-lab-agent/internal/metrics"
 )
 
 type tokenBucket struct {

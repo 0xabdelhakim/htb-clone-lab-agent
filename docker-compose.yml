@@ -12,7 +12,7 @@ services:
       LAB_AGENT_HMAC_SECRET: "change-me-hmac"
       LAB_AGENT_STATE_FILE: "/var/lib/lab-agent/state.json"
       LAB_AGENT_WG_MODE: "mock"
-      LAB_AGENT_IMAGE_ALLOW_PREFIXES: "ghcr.io/csai/labs/"
+      LAB_AGENT_IMAGE_ALLOW_PREFIXES: "ghcr.io/labs/"
       FLAG_SECRET: "change-me-flag"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

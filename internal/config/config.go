@@ -115,7 +115,7 @@ func Default() Config {
 		},
 		Orchestrator: OrchConfig{
 			MaxInstances:          50,
-			ImageAllowPrefixes:    []string{"ghcr.io/csai/labs/", "ghcr.io/"},
+			ImageAllowPrefixes:    []string{"ghcr.io/labs/", "ghcr.io/"},
 			DefaultTTLMinutes:     60,
 			MaxTTLMinutes:         180,
 			ContainerPrefix:       "inst",

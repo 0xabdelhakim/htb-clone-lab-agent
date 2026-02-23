@@ -12,10 +12,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/csai/htb-clone-lab-agent/internal/config"
-	"github.com/csai/htb-clone-lab-agent/internal/metrics"
-	"github.com/csai/htb-clone-lab-agent/internal/orchestrator"
-	"github.com/csai/htb-clone-lab-agent/internal/state"
+	"github.com/htb-clone-lab-agent/internal/config"
+	"github.com/htb-clone-lab-agent/internal/metrics"
+	"github.com/htb-clone-lab-agent/internal/orchestrator"
+	"github.com/htb-clone-lab-agent/internal/state"
 )
 
 type fakeOrch struct {
@@ -114,7 +114,7 @@ func newTestServer() *Server {
 func TestCreateIdempotency(t *testing.T) {
 	s := newTestServer()
 	routes := s.Routes()
-	body := []byte(`{"instance_id":"i1","user_id":"u1","lab_id":"l1","image":"ghcr.io/csai/labs/x:1","ttl_seconds":7200}`)
+	body := []byte(`{"instance_id":"i1","user_id":"u1","lab_id":"l1","image":"ghcr.io/labs/x:1","ttl_seconds":7200}`)
 
 	req1 := httptest.NewRequest(http.MethodPost, "/v1/instances", bytes.NewReader(body))
 	rr1 := httptest.NewRecorder()
@@ -148,7 +148,7 @@ func TestCreateIdempotency(t *testing.T) {
 func TestDeleteIdempotency(t *testing.T) {
 	s := newTestServer()
 	routes := s.Routes()
-	create := []byte(`{"instance_id":"i2","user_id":"u2","lab_id":"l2","image":"ghcr.io/csai/labs/x:1"}`)
+	create := []byte(`{"instance_id":"i2","user_id":"u2","lab_id":"l2","image":"ghcr.io/labs/x:1"}`)
 	routes.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodPost, "/v1/instances", bytes.NewReader(create)))
 
 	del1 := httptest.NewRecorder()
@@ -167,7 +167,7 @@ func TestDeleteIdempotency(t *testing.T) {
 func TestStartStopIdempotency(t *testing.T) {
 	s := newTestServer()
 	routes := s.Routes()
-	create := []byte(`{"instance_id":"i3","user_id":"u3","lab_id":"l3","image":"ghcr.io/csai/labs/x:1"}`)
+	create := []byte(`{"instance_id":"i3","user_id":"u3","lab_id":"l3","image":"ghcr.io/labs/x:1"}`)
 	routes.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodPost, "/v1/instances", bytes.NewReader(create)))
 
 	stop1 := httptest.NewRecorder()
@@ -198,8 +198,8 @@ func TestStartStopIdempotency(t *testing.T) {
 func TestListInstancesExpectedState(t *testing.T) {
 	s := newTestServer()
 	routes := s.Routes()
-	create1 := []byte(`{"instance_id":"i4","user_id":"u4","lab_id":"l4","image":"ghcr.io/csai/labs/x:1"}`)
-	create2 := []byte(`{"instance_id":"i5","user_id":"u5","lab_id":"l5","image":"ghcr.io/csai/labs/x:1"}`)
+	create1 := []byte(`{"instance_id":"i4","user_id":"u4","lab_id":"l4","image":"ghcr.io/labs/x:1"}`)
+	create2 := []byte(`{"instance_id":"i5","user_id":"u5","lab_id":"l5","image":"ghcr.io/labs/x:1"}`)
 	routes.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodPost, "/v1/instances", bytes.NewReader(create1)))
 	routes.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodPost, "/v1/instances", bytes.NewReader(create2)))
 

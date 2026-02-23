@@ -27,7 +27,7 @@ storage:
 orchestrator:
   max_instances: 50
   image_allow_prefixes:
-    - ghcr.io/csai/labs/
+    - ghcr.io/labs/
   default_ttl_minutes: 60
   max_ttl_minutes: 180
   container_prefix: inst
