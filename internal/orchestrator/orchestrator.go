@@ -16,6 +16,7 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/filters"
+	imageapi "github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/client"
 
@@ -462,7 +463,7 @@ func (e *Engine) removeContainer(ctx context.Context, containerID string) error 
 }
 
 func (e *Engine) pullImage(ctx context.Context, image string) error {
-	reader, err := e.docker.ImagePull(ctx, image, types.ImagePullOptions{})
+	reader, err := e.docker.ImagePull(ctx, image, imageapi.PullOptions{})
 	if err != nil {
 		return err
 	}
