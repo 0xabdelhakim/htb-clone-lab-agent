@@ -1,0 +1,56 @@
+server:
+  listen_addr: ":9000"
+  version: "dev"
+  health_public: true
+  tls_cert_file: ""
+  tls_key_file: ""
+  tls_client_ca_file: ""
+  tls_require_client_cert: false
+
+auth:
+  mode: hmac # bearer | hmac | either
+  bearer_token: ""
+  hmac_secret: "change-me"
+  hmac_skew_seconds: 300
+  nonce_ttl_seconds: 360
+
+rate_limit:
+  enabled: true
+  global_rps: 100
+  global_burst: 200
+  per_ip_rps: 20
+  per_ip_burst: 40
+
+storage:
+  state_file: /var/lib/lab-agent/state.json
+
+orchestrator:
+  max_instances: 50
+  image_allow_prefixes:
+    - ghcr.io/csai/labs/
+  default_ttl_minutes: 60
+  max_ttl_minutes: 180
+  container_prefix: inst
+  network_prefix: labinst
+  container_memory_bytes: 536870912
+  container_cpu_cores: 1.0
+  container_pids_limit: 256
+  container_read_only_root: true
+  container_tmpfs_size: 64m
+  flag_secret: change-me
+
+wireguard:
+  mode: mock # mock | wg
+  interface: wg0
+  server_public_key: ""
+  server_endpoint: ""
+  allowed_ips: 10.13.0.0/16
+  dns: 10.13.0.1
+
+reconciliation:
+  interval_seconds: 60
+
+observability:
+  log_level: info
+  metrics_path: /metrics
+  enable_pprof: false
