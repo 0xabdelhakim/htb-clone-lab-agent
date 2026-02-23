@@ -70,7 +70,7 @@ func main() {
 	authState := auth.NewMiddlewareState(cfg.Auth.NonceTTLSeconds)
 	protected := authState.Middleware(cfg.Auth, routes)
 	rateLimited := auth.NewRateLimiter(cfg.RateLimit, reg).Middleware(protected)
-	root := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	var root http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if cfg.Server.HealthPublic && (r.URL.Path == "/healthz" || r.URL.Path == "/readyz" || r.URL.Path == "/api/v1/health") {
 			routes.ServeHTTP(w, r)
 			return
