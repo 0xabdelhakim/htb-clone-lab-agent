@@ -156,6 +156,23 @@ Important defaults:
 - `LAB_AGENT_RATE_LIMIT_ENABLED=true`
 - `LAB_AGENT_RATE_LIMIT_GLOBAL_RPS=100`
 - `LAB_AGENT_RATE_LIMIT_PER_IP_RPS=20`
+- `LAB_AGENT_REGISTRY_SERVER_ADDRESS=ghcr.io`
+
+### Registry pull auth (GHCR/private images)
+
+The orchestrator now:
+- skips pull if the image is already present locally.
+- uses Docker API pull auth when configured.
+
+Set these on worker when using private GHCR images:
+
+```bash
+LAB_AGENT_REGISTRY_USERNAME=<github-username>
+LAB_AGENT_REGISTRY_TOKEN=<token-with-read-packages>
+LAB_AGENT_REGISTRY_SERVER_ADDRESS=ghcr.io
+```
+
+If these are empty, agent attempts anonymous pull.
 
 ## Security Notes
 
@@ -164,3 +181,4 @@ Important defaults:
 - Use image allowlist prefixes.
 - Prefer mTLS in production (`LAB_AGENT_TLS_*`).
 - See `docs/security.md` for threat model and checklist.
+

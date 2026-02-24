@@ -4,7 +4,9 @@ import (
 	"context"
 	"crypto/hmac"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -18,6 +20,7 @@ import (
 	"github.com/docker/docker/api/types/filters"
 	imageapi "github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/api/types/network"
+	"github.com/docker/docker/api/types/registry"
 	"github.com/docker/docker/client"
 
 	"github.com/htb-clone-lab-agent/internal/config"
@@ -463,13 +466,42 @@ func (e *Engine) removeContainer(ctx context.Context, containerID string) error 
 }
 
 func (e *Engine) pullImage(ctx context.Context, image string) error {
-	reader, err := e.docker.ImagePull(ctx, image, imageapi.PullOptions{})
+	if _, _, err := e.docker.ImageInspectWithRaw(ctx, image); err == nil {
+		return nil
+	}
+
+	pullOpts := imageapi.PullOptions{}
+	if auth := e.registryAuth(); auth != "" {
+		pullOpts.RegistryAuth = auth
+	}
+
+	reader, err := e.docker.ImagePull(ctx, image, pullOpts)
 	if err != nil {
 		return err
 	}
 	defer reader.Close()
 	_, _ = io.Copy(io.Discard, reader)
 	return nil
+}
+
+func (e *Engine) registryAuth() string {
+	if e.cfg.Orchestrator.RegistryUsername == "" || e.cfg.Orchestrator.RegistryToken == "" {
+		return ""
+	}
+	server := e.cfg.Orchestrator.RegistryServerAddress
+	if server == "" {
+		server = "ghcr.io"
+	}
+	authConfig := registry.AuthConfig{
+		Username:      e.cfg.Orchestrator.RegistryUsername,
+		Password:      e.cfg.Orchestrator.RegistryToken,
+		ServerAddress: server,
+	}
+	raw, err := json.Marshal(authConfig)
+	if err != nil {
+		return ""
+	}
+	return base64.StdEncoding.EncodeToString(raw)
 }
 
 func (e *Engine) imageAllowed(image string) bool {

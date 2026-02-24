@@ -28,6 +28,9 @@ orchestrator:
   max_instances: 50
   image_allow_prefixes:
     - ghcr.io/labs/
+  registry_username: ""
+  registry_token: ""
+  registry_server_address: ghcr.io
   default_ttl_minutes: 60
   max_ttl_minutes: 180
   container_prefix: inst

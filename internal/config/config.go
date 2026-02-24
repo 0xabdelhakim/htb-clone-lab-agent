@@ -57,6 +57,9 @@ type StorageConfig struct {
 type OrchConfig struct {
 	MaxInstances          int      `yaml:"max_instances"`
 	ImageAllowPrefixes    []string `yaml:"image_allow_prefixes"`
+	RegistryUsername      string   `yaml:"registry_username"`
+	RegistryToken         string   `yaml:"registry_token"`
+	RegistryServerAddress string   `yaml:"registry_server_address"`
 	DefaultTTLMinutes     int      `yaml:"default_ttl_minutes"`
 	MaxTTLMinutes         int      `yaml:"max_ttl_minutes"`
 	ContainerPrefix       string   `yaml:"container_prefix"`
@@ -116,6 +119,7 @@ func Default() Config {
 		Orchestrator: OrchConfig{
 			MaxInstances:          50,
 			ImageAllowPrefixes:    []string{"ghcr.io/labs/", "ghcr.io/"},
+			RegistryServerAddress: "ghcr.io",
 			DefaultTTLMinutes:     60,
 			MaxTTLMinutes:         180,
 			ContainerPrefix:       "inst",
@@ -192,6 +196,9 @@ func applyEnv(cfg *Config) {
 
 	setInt(&cfg.Orchestrator.MaxInstances, "MAX_INSTANCES")
 	setCSV(&cfg.Orchestrator.ImageAllowPrefixes, "LAB_AGENT_IMAGE_ALLOW_PREFIXES")
+	setString(&cfg.Orchestrator.RegistryUsername, "LAB_AGENT_REGISTRY_USERNAME")
+	setString(&cfg.Orchestrator.RegistryToken, "LAB_AGENT_REGISTRY_TOKEN")
+	setString(&cfg.Orchestrator.RegistryServerAddress, "LAB_AGENT_REGISTRY_SERVER_ADDRESS")
 	setInt(&cfg.Orchestrator.DefaultTTLMinutes, "DEFAULT_TTL_MINUTES")
 	setInt(&cfg.Orchestrator.MaxTTLMinutes, "MAX_TTL_MINUTES")
 	setString(&cfg.Orchestrator.ContainerPrefix, "LAB_AGENT_CONTAINER_PREFIX")
