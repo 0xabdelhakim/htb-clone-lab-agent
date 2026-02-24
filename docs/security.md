@@ -16,6 +16,8 @@
 - Structured JSON logs with request IDs.
 - Prometheus metrics and health/readiness endpoints.
 - Rate limiting (global + per-IP).
+- Startup self-check fails fast on raw-table DROP rules targeting lab CIDRs.
+- Host reconcile script prunes stale per-instance bridge/firewall artifacts.
 
 ## Hardening Checklist
 

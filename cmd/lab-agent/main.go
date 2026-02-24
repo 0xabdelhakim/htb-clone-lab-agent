@@ -43,6 +43,10 @@ func main() {
 		logger.Error("engine_init_failed", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
+	if err := engine.StartupSelfCheck(ctx); err != nil {
+		logger.Error("startup_self_check_failed", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
 
 	if len(os.Args) > 1 && os.Args[1] == "reconcile" {
 		summary, err := engine.Reconcile(ctx)

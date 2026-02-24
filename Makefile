@@ -1,4 +1,4 @@
-.PHONY: test run build fmt dev
+.PHONY: test run build fmt dev host-reconcile
 
 test:
 	go test ./...
@@ -14,3 +14,6 @@ fmt:
 
 dev:
 	docker compose up --build
+
+host-reconcile:
+	sudo ./scripts/reconcile_host_network.sh

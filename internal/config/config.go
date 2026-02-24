@@ -3,6 +3,7 @@ package config
 import (
 	"errors"
 	"fmt"
+	"net/netip"
 	"os"
 	"strconv"
 	"strings"
@@ -57,6 +58,8 @@ type StorageConfig struct {
 type OrchConfig struct {
 	MaxInstances          int      `yaml:"max_instances"`
 	ImageAllowPrefixes    []string `yaml:"image_allow_prefixes"`
+	LabCIDRs              []string `yaml:"lab_cidrs"`
+	StartupFirewallCheck  bool     `yaml:"startup_firewall_check"`
 	RegistryUsername      string   `yaml:"registry_username"`
 	RegistryToken         string   `yaml:"registry_token"`
 	RegistryServerAddress string   `yaml:"registry_server_address"`
@@ -119,6 +122,8 @@ func Default() Config {
 		Orchestrator: OrchConfig{
 			MaxInstances:          50,
 			ImageAllowPrefixes:    []string{"ghcr.io/labs/", "ghcr.io/"},
+			LabCIDRs:              []string{"172.16.0.0/12"},
+			StartupFirewallCheck:  true,
 			RegistryServerAddress: "ghcr.io",
 			DefaultTTLMinutes:     60,
 			MaxTTLMinutes:         180,
@@ -196,6 +201,8 @@ func applyEnv(cfg *Config) {
 
 	setInt(&cfg.Orchestrator.MaxInstances, "MAX_INSTANCES")
 	setCSV(&cfg.Orchestrator.ImageAllowPrefixes, "LAB_AGENT_IMAGE_ALLOW_PREFIXES")
+	setCSV(&cfg.Orchestrator.LabCIDRs, "LAB_AGENT_LAB_CIDRS")
+	setBool(&cfg.Orchestrator.StartupFirewallCheck, "LAB_AGENT_STARTUP_FIREWALL_CHECK")
 	setString(&cfg.Orchestrator.RegistryUsername, "LAB_AGENT_REGISTRY_USERNAME")
 	setString(&cfg.Orchestrator.RegistryToken, "LAB_AGENT_REGISTRY_TOKEN")
 	setString(&cfg.Orchestrator.RegistryServerAddress, "LAB_AGENT_REGISTRY_SERVER_ADDRESS")
@@ -236,6 +243,14 @@ func validate(cfg Config) error {
 	}
 	if cfg.Orchestrator.DefaultTTLMinutes > cfg.Orchestrator.MaxTTLMinutes {
 		return errors.New("default ttl cannot exceed max ttl")
+	}
+	if len(cfg.Orchestrator.LabCIDRs) == 0 {
+		return errors.New("orchestrator.lab_cidrs must not be empty")
+	}
+	for _, c := range cfg.Orchestrator.LabCIDRs {
+		if _, err := netip.ParsePrefix(c); err != nil {
+			return fmt.Errorf("invalid lab cidr %q: %w", c, err)
+		}
 	}
 	mode := strings.ToLower(cfg.Auth.Mode)
 	switch mode {

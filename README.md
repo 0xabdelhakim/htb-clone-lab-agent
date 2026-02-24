@@ -156,7 +156,21 @@ Important defaults:
 - `LAB_AGENT_RATE_LIMIT_ENABLED=true`
 - `LAB_AGENT_RATE_LIMIT_GLOBAL_RPS=100`
 - `LAB_AGENT_RATE_LIMIT_PER_IP_RPS=20`
+- `LAB_AGENT_LAB_CIDRS=172.16.0.0/12`
+- `LAB_AGENT_STARTUP_FIREWALL_CHECK=true`
 - `LAB_AGENT_REGISTRY_SERVER_ADDRESS=ghcr.io`
+
+### Startup firewall self-check
+
+On startup, the agent checks `iptables -t raw -S PREROUTING` and fails fast if a `DROP` rule targets configured lab CIDRs (`LAB_AGENT_LAB_CIDRS`).
+
+This prevents silent VPN->lab breakage caused by raw-table drops before FORWARD/NAT.
+
+Disable only for controlled debugging:
+
+```bash
+LAB_AGENT_STARTUP_FIREWALL_CHECK=false
+```
 
 ### Registry pull auth (GHCR/private images)
 
@@ -174,6 +188,30 @@ LAB_AGENT_REGISTRY_SERVER_ADDRESS=ghcr.io
 
 If these are empty, agent attempts anonymous pull.
 
+## Host Cleanup/Reconcile Script
+
+Use `scripts/reconcile_host_network.sh` to prune stale per-instance host artifacts:
+- stale iptables rules referencing deleted `br-*` interfaces in `FORWARD`, `DOCKER-USER`, and `raw/PREROUTING`.
+- stale Docker networks with label `lab_agent.managed=true` and zero endpoints.
+
+Preview:
+
+```bash
+sudo ./scripts/reconcile_host_network.sh --dry-run
+```
+
+Apply:
+
+```bash
+sudo ./scripts/reconcile_host_network.sh
+```
+
+Or via Makefile:
+
+```bash
+make host-reconcile
+```
+
 ## Security Notes
 
 - Restrict API at firewall to backend IP only.
@@ -181,4 +219,3 @@ If these are empty, agent attempts anonymous pull.
 - Use image allowlist prefixes.
 - Prefer mTLS in production (`LAB_AGENT_TLS_*`).
 - See `docs/security.md` for threat model and checklist.
-
