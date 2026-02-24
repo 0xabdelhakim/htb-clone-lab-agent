@@ -4,9 +4,7 @@ import (
 	"context"
 	"crypto/hmac"
 	"crypto/sha256"
-	"encoding/base64"
 	"encoding/hex"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -497,11 +495,11 @@ func (e *Engine) registryAuth() string {
 		Password:      e.cfg.Orchestrator.RegistryToken,
 		ServerAddress: server,
 	}
-	raw, err := json.Marshal(authConfig)
+	encoded, err := registry.EncodeAuthConfig(authConfig)
 	if err != nil {
 		return ""
 	}
-	return base64.StdEncoding.EncodeToString(raw)
+	return encoded
 }
 
 func (e *Engine) imageAllowed(image string) bool {
