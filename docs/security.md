@@ -18,6 +18,7 @@
 - Rate limiting (global + per-IP).
 - Startup self-check fails fast on raw-table DROP rules targeting lab CIDRs.
 - Host reconcile script prunes stale per-instance bridge/firewall artifacts.
+- Optional managed `DOCKER-USER` rules for WireGuard-to-lab forwarding.
 
 ## Hardening Checklist
 

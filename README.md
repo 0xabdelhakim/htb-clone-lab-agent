@@ -158,6 +158,7 @@ Important defaults:
 - `LAB_AGENT_RATE_LIMIT_PER_IP_RPS=20`
 - `LAB_AGENT_LAB_CIDRS=172.16.0.0/12`
 - `LAB_AGENT_STARTUP_FIREWALL_CHECK=true`
+- `LAB_AGENT_MANAGE_DOCKER_USER_RULES=false`
 - `LAB_AGENT_REGISTRY_SERVER_ADDRESS=ghcr.io`
 
 ### Startup firewall self-check
@@ -171,6 +172,22 @@ Disable only for controlled debugging:
 ```bash
 LAB_AGENT_STARTUP_FIREWALL_CHECK=false
 ```
+
+### Managed DOCKER-USER rules
+
+When enabled, the agent will manage VPN-to-lab forwarding rules automatically:
+- startup: insert accept rules in `filter/DOCKER-USER`.
+- shutdown: remove those managed rules.
+
+Enable with:
+
+```bash
+LAB_AGENT_MANAGE_DOCKER_USER_RULES=true
+```
+
+Rules managed:
+- `-i <wg_interface> -d <lab_cidr> -j ACCEPT` for each lab CIDR.
+- `-o <wg_interface> -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT`.
 
 ### Registry pull auth (GHCR/private images)
 

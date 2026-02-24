@@ -60,6 +60,7 @@ type OrchConfig struct {
 	ImageAllowPrefixes    []string `yaml:"image_allow_prefixes"`
 	LabCIDRs              []string `yaml:"lab_cidrs"`
 	StartupFirewallCheck  bool     `yaml:"startup_firewall_check"`
+	ManageDockerUserRules bool     `yaml:"manage_docker_user_rules"`
 	RegistryUsername      string   `yaml:"registry_username"`
 	RegistryToken         string   `yaml:"registry_token"`
 	RegistryServerAddress string   `yaml:"registry_server_address"`
@@ -124,6 +125,7 @@ func Default() Config {
 			ImageAllowPrefixes:    []string{"ghcr.io/labs/", "ghcr.io/"},
 			LabCIDRs:              []string{"172.16.0.0/12"},
 			StartupFirewallCheck:  true,
+			ManageDockerUserRules: false,
 			RegistryServerAddress: "ghcr.io",
 			DefaultTTLMinutes:     60,
 			MaxTTLMinutes:         180,
@@ -203,6 +205,7 @@ func applyEnv(cfg *Config) {
 	setCSV(&cfg.Orchestrator.ImageAllowPrefixes, "LAB_AGENT_IMAGE_ALLOW_PREFIXES")
 	setCSV(&cfg.Orchestrator.LabCIDRs, "LAB_AGENT_LAB_CIDRS")
 	setBool(&cfg.Orchestrator.StartupFirewallCheck, "LAB_AGENT_STARTUP_FIREWALL_CHECK")
+	setBool(&cfg.Orchestrator.ManageDockerUserRules, "LAB_AGENT_MANAGE_DOCKER_USER_RULES")
 	setString(&cfg.Orchestrator.RegistryUsername, "LAB_AGENT_REGISTRY_USERNAME")
 	setString(&cfg.Orchestrator.RegistryToken, "LAB_AGENT_REGISTRY_TOKEN")
 	setString(&cfg.Orchestrator.RegistryServerAddress, "LAB_AGENT_REGISTRY_SERVER_ADDRESS")

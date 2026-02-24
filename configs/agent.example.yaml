@@ -31,6 +31,7 @@ orchestrator:
   lab_cidrs:
     - 172.16.0.0/12
   startup_firewall_check: true
+  manage_docker_user_rules: false
   registry_username: ""
   registry_token: ""
   registry_server_address: ghcr.io
