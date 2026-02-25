@@ -116,12 +116,13 @@ func (s *Server) handleCreateOrUpsert(w http.ResponseWriter, r *http.Request) {
 	}
 
 	input := orchestrator.CreateInput{
-		InstanceID:   req.InstanceID,
-		UserID:       req.UserID,
-		LabContentID: labID,
-		Image:        req.Image,
-		Services:     services,
-		TTLMinutes:   ttlMinutes,
+		InstanceID:     req.InstanceID,
+		UserID:         req.UserID,
+		LabContentID:   labID,
+		Image:          req.Image,
+		ReadOnlyRootFS: req.ReadOnlyRootFS,
+		Services:       services,
+		TTLMinutes:     ttlMinutes,
 	}
 	if req.Flag != nil {
 		input.FlagMode = req.Flag.Mode

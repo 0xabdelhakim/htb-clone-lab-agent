@@ -24,18 +24,19 @@ type FlagSpec struct {
 }
 
 type CreateInstanceRequest struct {
-	InstanceID   string            `json:"instance_id"`
-	UserID       string            `json:"user_id"`
-	LabID        string            `json:"lab_id"`
-	LabContentID string            `json:"lab_content_id"`
-	Image        string            `json:"image"`
-	Resources    ResourceSpec      `json:"resources"`
-	Ports        []PortBinding     `json:"ports"`
-	Services     []ServicePort     `json:"services"`
-	Env          map[string]string `json:"env"`
-	TTLSeconds   int               `json:"ttl_seconds"`
-	TTLMinutes   int               `json:"ttl_minutes"`
-	Flag         *FlagSpec         `json:"flag,omitempty"`
+	InstanceID     string            `json:"instance_id"`
+	UserID         string            `json:"user_id"`
+	LabID          string            `json:"lab_id"`
+	LabContentID   string            `json:"lab_content_id"`
+	Image          string            `json:"image"`
+	ReadOnlyRootFS *bool             `json:"read_only_rootfs,omitempty"`
+	Resources      ResourceSpec      `json:"resources"`
+	Ports          []PortBinding     `json:"ports"`
+	Services       []ServicePort     `json:"services"`
+	Env            map[string]string `json:"env"`
+	TTLSeconds     int               `json:"ttl_seconds"`
+	TTLMinutes     int               `json:"ttl_minutes"`
+	Flag           *FlagSpec         `json:"flag,omitempty"`
 }
 
 type StartStopInstanceResponse struct {
@@ -121,5 +122,3 @@ type ReconcileResponse struct {
 	Imported      int  `json:"imported"`
 	MarkedStopped int  `json:"marked_stopped"`
 }
-
-

@@ -35,14 +35,15 @@ var (
 )
 
 type CreateInput struct {
-	InstanceID   string
-	UserID       string
-	LabContentID string
-	Image        string
-	Services     []state.ServicePort
-	TTLMinutes   int
-	FlagMode     string
-	FlagPath     string
+	InstanceID     string
+	UserID         string
+	LabContentID   string
+	Image          string
+	ReadOnlyRootFS *bool
+	Services       []state.ServicePort
+	TTLMinutes     int
+	FlagMode       string
+	FlagPath       string
 }
 
 type ReconcileSummary struct {
@@ -135,10 +136,15 @@ func (e *Engine) CreateInstance(ctx context.Context, in CreateInput) (state.Inst
 		"lab_agent.expires_at":     expiresAt.Format(time.RFC3339),
 	}
 
+	readOnlyRootfs := e.cfg.Orchestrator.ContainerReadOnlyRoot
+	if in.ReadOnlyRootFS != nil {
+		readOnlyRootfs = *in.ReadOnlyRootFS
+	}
+
 	hc := &container.HostConfig{
 		CapDrop:        []string{"ALL"},
 		SecurityOpt:    []string{"no-new-privileges:true"},
-		ReadonlyRootfs: e.cfg.Orchestrator.ContainerReadOnlyRoot,
+		ReadonlyRootfs: readOnlyRootfs,
 		Tmpfs:          map[string]string{"/tmp": "size=" + e.cfg.Orchestrator.ContainerTmpfsSize},
 		Resources: container.Resources{
 			Memory:   e.cfg.Orchestrator.ContainerMemoryBytes,
